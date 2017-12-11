@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Gank</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="gank">干货集中营</string>
+    <string name="today">今天</string>
+    <string name="android">Android</string>
+    <string name="ios">iOS</string>
+    <string name="front_end">前端</string>
+    <string name="benefit">福利</string>
+    <string name="videos">休息视频</string>
+    <string name="contact">联系</string>
+    <string name="about">关于</string>
+    <string name="feedback">反馈</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
