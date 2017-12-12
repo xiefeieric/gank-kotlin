@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_today -> {
                 // Handle the camera action
+                showFragment(supportFragmentManager, TODAY_FRAGMENT)
             }
             R.id.nav_android -> {
 
@@ -87,6 +88,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
             R.id.nav_front_end -> {
+
+            }
+            R.id.nav_benefit -> {
+
+            }
+            R.id.nav_videos -> {
 
             }
             R.id.nav_about -> {

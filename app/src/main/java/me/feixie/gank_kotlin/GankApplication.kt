@@ -2,6 +2,7 @@ package me.feixie.gank_kotlin
 
 import android.app.Application
 import com.squareup.leakcanary.LeakCanary
+import net.danlew.android.joda.JodaTimeAndroid
 import timber.log.Timber
 
 /**
@@ -16,6 +17,7 @@ class GankApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        JodaTimeAndroid.init(this);
 
         //development only features
         if (BuildConfig.DEBUG) {
