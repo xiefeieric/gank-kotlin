@@ -2,6 +2,7 @@ package me.feixie.gank_kotlin.api
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.Observable
+import me.feixie.gank_kotlin.dagger.DaggerAppComponent
 import org.joda.time.DateTime
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -13,7 +14,7 @@ import timber.log.Timber
 object ApiService {
 
     private var retrofit:Retrofit? = null
-
+    
     private fun initRetrofit():Retrofit {
         if (retrofit == null) {
             retrofit = Retrofit.Builder()
