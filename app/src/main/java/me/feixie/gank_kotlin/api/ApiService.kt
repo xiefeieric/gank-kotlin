@@ -2,6 +2,7 @@ package me.feixie.gank_kotlin.api
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.Observable
+import me.feixie.gank_kotlin.GankApplication
 import me.feixie.gank_kotlin.dagger.DaggerAppComponent
 import org.joda.time.DateTime
 import retrofit2.Retrofit
@@ -13,21 +14,8 @@ import timber.log.Timber
  */
 object ApiService {
 
-    private var retrofit:Retrofit? = null
-    
-    private fun initRetrofit():Retrofit {
-        if (retrofit == null) {
-            retrofit = Retrofit.Builder()
-                    .baseUrl("https://gank.io/api/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .build()
-        }
-        return retrofit!!
-    }
-
     fun getToday(): Observable<TodayApiModel> {
-        val todayService = initRetrofit().create(GankTodayService::class.java)
+        val todayService = GankApplication.mRetrofit.create(GankTodayService::class.java)
         val datetime = DateTime()
 //        return todayService.getTodayInfo(datetime.year, datetime.monthOfYear, datetime.dayOfMonth)
         return todayService.getTodayInfo(2017, 12, 11)

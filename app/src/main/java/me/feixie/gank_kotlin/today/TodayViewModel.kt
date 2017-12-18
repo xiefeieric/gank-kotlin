@@ -10,6 +10,9 @@ import io.reactivex.schedulers.Schedulers
 import me.feixie.gank_kotlin.GankApplication
 import me.feixie.gank_kotlin.api.ApiService
 import me.feixie.gank_kotlin.api.TodayApiModel
+import me.feixie.gank_kotlin.dagger.ApiServiceModule
+import me.feixie.gank_kotlin.dagger.DaggerServiceComponent
+import me.feixie.gank_kotlin.dagger.ServiceComponent
 import timber.log.Timber
 
 /**
@@ -18,11 +21,15 @@ import timber.log.Timber
 class TodayViewModel:ViewModel() {
 
     private val mDisposable = CompositeDisposable()
+    private val mServiceComponent = DaggerServiceComponent.builder()
+            .apiServiceModule(ApiServiceModule())
+            .build()
+    private val mApiService = mServiceComponent.injectService()
     private val mTodayData:MutableLiveData<TodayApiModel> = MutableLiveData()
 
     fun getLiveTodayInfo(): MutableLiveData<TodayApiModel> {
         mDisposable.add(
-                ApiService.getToday()
+                mApiService.getToday()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({today ->

@@ -1,13 +1,12 @@
 package me.feixie.gank_kotlin
 
 import android.app.Application
-import android.app.DatePickerDialog
 import com.squareup.leakcanary.LeakCanary
-import dagger.internal.DaggerCollections
 import me.feixie.gank_kotlin.dagger.AppComponent
 import me.feixie.gank_kotlin.dagger.AppModule
 import me.feixie.gank_kotlin.dagger.DaggerAppComponent
 import net.danlew.android.joda.JodaTimeAndroid
+import retrofit2.Retrofit
 import timber.log.Timber
 
 /**
@@ -15,19 +14,22 @@ import timber.log.Timber
  */
 class GankApplication : Application() {
 
-    lateinit var component: AppComponent
+    lateinit var mComponent: AppComponent
+
 
     companion object {
         lateinit var instance: GankApplication
+        lateinit var mRetrofit: Retrofit
     }
 
     override fun onCreate() {
         super.onCreate()
         instance = this
         JodaTimeAndroid.init(this);
-        component = DaggerAppComponent.builder()
+        mComponent = DaggerAppComponent.builder()
                 .appModule(AppModule())
                 .build()
+        mRetrofit = mComponent.injectRetrofit()
 
 
         //development only features

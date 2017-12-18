@@ -13,7 +13,7 @@ fun Activity.showFragment(fm:FragmentManager, tag:String) {
     if (fragment == null) {
         when (tag) {
             MainActivity.TODAY_FRAGMENT -> {
-                fragment = TodayFragment.instance()
+                fragment = TodayFragment.newInstance()
             }
             else -> {
                 throw IllegalArgumentException("tag cannot find")
