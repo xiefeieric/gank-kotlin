@@ -13,7 +13,9 @@ data class TodayApiModel(
         val results: Results = Results()
 ) {
     fun getDataList(): List<Item> {
-        return results.Android+results.iOS+results.休息视频+results.前端+results.拓展资源+results.福利
+        return listOf(Item(header = true, headerName = results.Android[0].type)) + results.Android + listOf(Item(header = true, headerName = results.iOS[0].type)) +
+                results.iOS + listOf(Item(header = true, headerName = results.休息视频[0].type)) + results.休息视频 + listOf(Item(header = true, headerName = results.前端[0].type)) +
+                results.前端 + listOf(Item(header = true, headerName = results.拓展资源[0].type)) + results.拓展资源
     }
 }
 
@@ -35,7 +37,9 @@ data class Item(
         val type: String = "", //Video
         val url: String = "", //https://weibo.com/tv/v/FtACAlNjr?fid=1034:af7f2c4cddc6b2d8e373293be47bdc8b&display=0&retcode=6102
         val used: Boolean = false, //true
-        val who: String = "" //lxxself
+        val who: String = "", //lxxself
+        val header: Boolean = false,
+        val headerName: String = ""
 )
 
 //data class Video(

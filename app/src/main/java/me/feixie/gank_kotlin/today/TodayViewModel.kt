@@ -14,6 +14,7 @@ import me.feixie.gank_kotlin.dagger.ApiServiceModule
 import me.feixie.gank_kotlin.dagger.DaggerServiceComponent
 import me.feixie.gank_kotlin.dagger.ServiceComponent
 import timber.log.Timber
+import java.util.*
 
 /**
  * Created by fei on 12/12/2017.
@@ -21,6 +22,7 @@ import timber.log.Timber
 class TodayViewModel:ViewModel() {
 
     private val mDisposable = CompositeDisposable()
+    private var mFailListener:ServerError? = null
     private val mServiceComponent = DaggerServiceComponent.builder()
             .apiServiceModule(ApiServiceModule())
             .build()
@@ -37,13 +39,22 @@ class TodayViewModel:ViewModel() {
                         }, {error ->
                             Timber.d(error.message)
                             Toasty.error(GankApplication.instance, error.message.toString()).show()
+                            mFailListener?.serverDown()
                         })
         )
         return mTodayData
+    }
+
+    fun setFailListener(listener: ServerError) {
+        mFailListener = listener
     }
 
     override fun onCleared() {
         super.onCleared()
         mDisposable.clear()
     }
+}
+
+interface ServerError {
+    fun serverDown()
 }
