@@ -11,3 +11,8 @@ interface GankTodayService {
     @GET("day/{year}/{month}/{day}")
     fun getTodayInfo(@Path("year") year: Int, @Path("month") month: Int, @Path("day") day: Int): Observable<TodayApiModel>
 }
+
+interface GankHistoryService {
+    @GET("day/history")
+    fun getGankHistory(): Observable<HistoryApiModel>
+}

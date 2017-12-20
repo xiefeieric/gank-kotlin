@@ -26,6 +26,7 @@ import me.feixie.gank_kotlin.GankApplication
 import me.feixie.gank_kotlin.R
 import me.feixie.gank_kotlin.api.Item
 import me.feixie.gank_kotlin.api.TodayApiModel
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import timber.log.Timber
 
 
@@ -59,6 +60,7 @@ class TodayFragment : Fragment() {
         mViewModel.setFailListener(object:ServerError{
             override fun serverDown() {
                 hideLoading(view)
+                view.tvEmpty.visibility = View.VISIBLE
             }
         } )
     }
@@ -67,6 +69,9 @@ class TodayFragment : Fragment() {
         mViewModel.getLiveTodayInfo().observe(this, Observer { today ->
             today?.let {
                 Timber.d(today.toString())
+                if (today.getDataList().isNotEmpty() && view.tvEmpty.isShown) {
+                    view.tvEmpty.visibility = View.GONE
+                }
                 val adapter = TodayInfoAdapter(R.layout.rv_today_item_view,  today.getDataList())
                 val header = View.inflate(activity, R.layout.item_header_today, null)
                 Glide.with(this)

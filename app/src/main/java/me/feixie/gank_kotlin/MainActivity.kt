@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 showFragment(supportFragmentManager, TODAY_FRAGMENT)
             }
             R.id.nav_android -> {
-
+                showFragment(supportFragmentManager, ANDROID_FRAGMENT)
             }
             R.id.nav_ios -> {
 

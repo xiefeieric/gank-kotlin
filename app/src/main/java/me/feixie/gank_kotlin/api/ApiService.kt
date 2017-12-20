@@ -14,11 +14,16 @@ import timber.log.Timber
  */
 object ApiService {
 
-    fun getToday(): Observable<TodayApiModel> {
+    fun getToday(year:Int, month:Int, day:Int): Observable<TodayApiModel> {
         val todayService = GankApplication.mRetrofit.create(GankTodayService::class.java)
-        val datetime = DateTime()
-//        return todayService.getTodayInfo(datetime.year, datetime.monthOfYear, datetime.dayOfMonth)
-        return todayService.getTodayInfo(2017, 12, 11)
+//        val datetime = DateTime()
+        return todayService.getTodayInfo(year, month, day)
+//        return todayService.getTodayInfo(2017, 12, 11)
+    }
+
+    fun getGankHistory():Observable<HistoryApiModel> {
+        val historyService = GankApplication.mRetrofit.create(GankHistoryService::class.java)
+        return historyService.getGankHistory()
     }
 
 }

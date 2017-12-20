@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     tools:context="me.feixie.gank_kotlin.today.TodayFragment">
 
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:text="@string/today_s_data_is_not_available_please_try_again_later"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvTodayInfo"
         android:layout_width="match_parent"

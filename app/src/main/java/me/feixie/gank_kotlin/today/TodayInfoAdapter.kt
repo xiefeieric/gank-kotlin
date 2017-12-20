@@ -21,7 +21,7 @@ class TodayInfoAdapter(private val resource:Int, private val todayData:List<Item
         if (helper != null && item != null) {
             when (item.header) {
                 true -> {
-                    helper.setTypeface(R.id.tvTodayTitle, Typeface.SERIF)
+                    helper.setTypeface(R.id.tvTodayTitle, Typeface.DEFAULT_BOLD)
                     helper.setTextColor(R.id.tvTodayTitle, GankApplication.instance.resources.getColor(android.R.color.black))
                     helper.setText(R.id.tvTodayTitle, item.headerName)
                 }
