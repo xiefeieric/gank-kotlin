@@ -36,6 +36,7 @@ import timber.log.Timber
 class TodayFragment : Fragment() {
 
     private lateinit var mViewModel: TodayViewModel
+    private lateinit var mAdapter:TodayInfoAdapter
 
     companion object {
         fun newInstance(): TodayFragment {
@@ -92,6 +93,7 @@ class TodayFragment : Fragment() {
                 adapter.addHeaderView(header)
                 view.rvTodayInfo.adapter = adapter
                 hideLoading(view)
+                adapter.setOnItemClickListener { adapter, view, position -> Timber.d("clicked") }
             }
         })
     }
