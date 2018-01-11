@@ -14,6 +14,8 @@ import me.feixie.gank_kotlin.api.Result
  */
 class AndroidAdapter(private val content:ContentApiModel, val listener:(Result)->Unit): RecyclerView.Adapter<ItemViewHolder>() {
 
+    //test
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = View.inflate(GankApplication.instance, R.layout.rv_android_item_view, null)
         return ItemViewHolder(view)
