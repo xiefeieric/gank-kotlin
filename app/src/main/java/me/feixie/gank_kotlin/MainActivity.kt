@@ -80,9 +80,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_today -> {
                 // Handle the camera action
                 showFragment(supportFragmentManager, TODAY_FRAGMENT)
+                supportActionBar?.title = "Gank"
             }
             R.id.nav_android -> {
                 showFragment(supportFragmentManager, ANDROID_FRAGMENT)
+                supportActionBar?.title = "Android"
             }
             R.id.nav_ios -> {
 

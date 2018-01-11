@@ -26,4 +26,9 @@ object ApiService {
         return historyService.getGankHistory()
     }
 
+    fun getAndroidContent(): Observable<ContentApiModel> {
+        val androidService = GankApplication.mRetrofit.create(GankAndroidService::class.java)
+        return androidService.getAndroidContent()
+    }
+
 }

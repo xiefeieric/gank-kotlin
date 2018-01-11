@@ -16,3 +16,8 @@ interface GankHistoryService {
     @GET("day/history")
     fun getGankHistory(): Observable<HistoryApiModel>
 }
+
+interface GankAndroidService {
+    @GET("data/Android/20/1")
+    fun getAndroidContent() : Observable<ContentApiModel>
+}

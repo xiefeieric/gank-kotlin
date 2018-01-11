@@ -90,7 +90,9 @@ class TodayFragment : Fragment() {
                 adapter.setOnItemClickListener { adapter, view, position ->
                     Timber.d(today.getDataList()[position].toString())
                     activity?.let {
-                        ViewArticalActivity.startActivity(it, today.getDataList()[position].url)
+                        if (today.getDataList()[position].url.isNotEmpty()) {
+                            ViewArticalActivity.startActivity(it, today.getDataList()[position].url)
+                        }
                     }
                 }
             }
