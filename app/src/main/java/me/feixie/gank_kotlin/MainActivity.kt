@@ -79,24 +79,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_today -> {
                 // Handle the camera action
-                showFragment(supportFragmentManager, TODAY_FRAGMENT)
+                showFragment(supportFragmentManager, TODAY_FRAGMENT, null)
                 supportActionBar?.title = "Gank"
             }
             R.id.nav_android -> {
-                showFragment(supportFragmentManager, ANDROID_FRAGMENT)
+                showFragment(supportFragmentManager, ANDROID_FRAGMENT, "Android")
                 supportActionBar?.title = "Android"
             }
             R.id.nav_ios -> {
-
+                showFragment(supportFragmentManager, ANDROID_FRAGMENT, "iOS")
+                supportActionBar?.title = "iOS"
             }
             R.id.nav_front_end -> {
-
+                showFragment(supportFragmentManager, ANDROID_FRAGMENT, "前端")
+                supportActionBar?.title = "前端"
             }
             R.id.nav_benefit -> {
-
+                showFragment(supportFragmentManager, BENEFIT_FRAGMENT, null)
+                supportActionBar?.title = "福利"
             }
             R.id.nav_videos -> {
-
+                showFragment(supportFragmentManager, ANDROID_FRAGMENT, "休息视频")
+                supportActionBar?.title = "休息视频"
             }
             R.id.nav_about -> {
 

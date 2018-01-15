@@ -15,6 +15,7 @@ import me.feixie.gank_kotlin.R
 import me.feixie.gank_kotlin.api.ContentApiModel
 import timber.log.Timber
 import kotlinx.android.synthetic.main.fragment_android.view.*
+import me.feixie.gank_kotlin.CONTENT_TYPE
 import me.feixie.gank_kotlin.common.ViewArticalActivity
 
 
@@ -30,6 +31,7 @@ class AndroidFragment : Fragment() {
     }
 
     private lateinit var mViewModel: AndroidViewModel
+    private var mType:String?  = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -40,26 +42,28 @@ class AndroidFragment : Fragment() {
         return view
     }
 
-
-
     private fun initData() {
+        mType = arguments?.getString(CONTENT_TYPE)
         mViewModel = ViewModelProviders.of(this).get(AndroidViewModel::class.java)
     }
 
     private fun initView(view: View) {
         view.rvAndroidContent.hasFixedSize()
         view.rvAndroidContent.layoutManager = LinearLayoutManager(activity)
-        mViewModel.getLiveAndroidContent().observe(this, Observer { content ->
-            Timber.d(content.toString())
-            content?.let {
-                view.rvAndroidContent?.adapter = AndroidAdapter(content, {result ->
-                    Timber.d(result.toString())
-                    if (result.url.isNotEmpty()) {
-                        ViewArticalActivity.startActivity(activity!!, result.url)
-                    }
-                })
-            }
-        })
+        if (mType != null) {
+            mViewModel.getLiveAndroidContent(mType!!).observe(this, Observer { content ->
+                content?.let {
+                    view.pbContent.visibility = View.GONE
+                    view.rvAndroidContent?.adapter = AndroidAdapter(content, {result ->
+                        Timber.d(result.toString())
+                        if (result.url.isNotEmpty()) {
+                            ViewArticalActivity.startActivity(activity!!, result.url)
+                        }
+                    })
+                }
+            })
+        }
+
     }
 
 }// Required empty public constructor
