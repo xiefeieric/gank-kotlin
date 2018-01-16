@@ -31,7 +31,9 @@ class TodayViewModel : ViewModel() {
                 mApiService.getGankHistory()
                         .map { history ->
                             val dateTime = DateTime()
-                            var dateReady = dateTime.year.toString() + "-" + dateTime.monthOfYear.toString() + "-" + dateTime.dayOfMonth.toString()
+                            val month = if (dateTime.monthOfYear < 10) "0" + dateTime.monthOfYear.toString() else dateTime.monthOfYear.toString()
+                            val day = if (dateTime.dayOfMonth < 10) "0" + dateTime.dayOfMonth.toString() else dateTime.dayOfMonth.toString()
+                            var dateReady = dateTime.year.toString() + "-" + month + "-" +day
                             var counter = 1
                             while (!history.results.contains(dateReady)) {
                                 val tempDate = dateTime.minusDays(counter)
