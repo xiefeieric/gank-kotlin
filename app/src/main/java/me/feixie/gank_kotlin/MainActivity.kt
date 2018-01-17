@@ -103,11 +103,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportActionBar?.title = "休息视频"
             }
             R.id.nav_about -> {
-
+                showFragment(supportFragmentManager, ABOUT_FRAGMENT, null)
+                supportActionBar?.title = "关于"
             }
-            R.id.nav_feedback -> {
-
-            }
+//            R.id.nav_feedback -> {
+//
+//            }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)

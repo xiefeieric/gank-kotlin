@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import timber.log.Timber
 import kotlinx.android.synthetic.main.fragment_android.view.*
 import me.feixie.gank_kotlin.CONTENT_TYPE
 import me.feixie.gank_kotlin.common.ViewArticalActivity
+import me.feixie.gank_kotlin.util.EndlessRecyclerViewScrollListener
 
 
 /**
@@ -32,6 +34,7 @@ class AndroidFragment : Fragment() {
 
     private lateinit var mViewModel: AndroidViewModel
     private var mType:String?  = null
+    private lateinit var mLayoutManager: LinearLayoutManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -47,9 +50,19 @@ class AndroidFragment : Fragment() {
         mViewModel = ViewModelProviders.of(this).get(AndroidViewModel::class.java)
     }
 
+
+
     private fun initView(view: View) {
         view.rvAndroidContent.hasFixedSize()
-        view.rvAndroidContent.layoutManager = LinearLayoutManager(activity)
+        mLayoutManager = LinearLayoutManager(activity)
+        view.rvAndroidContent.layoutManager = mLayoutManager
+        val listener = object : EndlessRecyclerViewScrollListener(mLayoutManager){
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                Timber.d("page: "+page)
+
+                //TODO IMPLEMENT LOAD MORE FUNCTION
+            }
+        }
         if (mType != null) {
             mViewModel.getLiveAndroidContent(mType!!).observe(this, Observer { content ->
                 content?.let {
@@ -60,6 +73,7 @@ class AndroidFragment : Fragment() {
                             ViewArticalActivity.startActivity(activity!!, result.url)
                         }
                     })
+                    view.rvAndroidContent.addOnScrollListener(listener)
                 }
             })
         }

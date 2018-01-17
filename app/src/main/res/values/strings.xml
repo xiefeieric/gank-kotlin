@@ -16,8 +16,15 @@
     <string name="about">关于</string>
     <string name="feedback">反馈</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="today_s_data_is_not_available_please_try_again_later">Today\'s data is not available, please try again later</string>
     <string name="title_activity_view_artical">ViewArticalActivity</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="introduction">简介</string>
+    <string name="content">Gank是干货集中营的非官方Android客户端， 每天精选妹子图片， 一个精选休息视频以及若干个Android, iOS, 前端方面的技术干货.
+        \n\n本项目完全开源, 使用的是MVVM架构，完全KOTLIN编写，并结合使用了Android Architecture Components, RxJava2, Dagger2, Retrofit, Glide等等优秀的开源库.
+        \n\n数据来源: http://gank.io/api(干货集中营)
+        \n\n项目源码: https://github.com/xiefeieric</string>
+    <string name="developer">开发者</string>
+    <string name="content_developer">xiefeieric\n\nhttp://xiefeieric.github.io\n\nhttps://github.com/xiefeieric</string>
 </resources>

@@ -37,7 +37,9 @@ class TodayViewModel : ViewModel() {
                             var counter = 1
                             while (!history.results.contains(dateReady)) {
                                 val tempDate = dateTime.minusDays(counter)
-                                dateReady = tempDate.year.toString() + "-" + tempDate.monthOfYear.toString() + "-" + tempDate.dayOfMonth.toString()
+                                val newMonth = if (tempDate.monthOfYear < 10) "0" + tempDate.monthOfYear.toString() else tempDate.monthOfYear.toString()
+                                val newDay = if (tempDate.dayOfMonth < 10) "0" + tempDate.dayOfMonth.toString() else tempDate.dayOfMonth.toString()
+                                dateReady = tempDate.year.toString() + "-" + newMonth + "-" + newDay
                                 counter++
                             }
                             return@map dateReady
