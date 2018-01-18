@@ -12,26 +12,24 @@ import kotlinx.android.synthetic.main.rv_benefit_item_view.view.*
 import me.feixie.gank_kotlin.GankApplication
 import me.feixie.gank_kotlin.R
 import me.feixie.gank_kotlin.api.ContentApiModel
+import me.feixie.gank_kotlin.api.Result
 import org.jetbrains.anko.appcompat.v7._ListMenuItemView
 
 /**
  * Created by fei on 16/01/2018.
  */
-class BenefitRVAdapter(private val mContext:Activity, private val mContent:ContentApiModel, private val mListener: ImageClickListener):RecyclerView.Adapter<BenefitViewHolder>() {
+class BenefitRVAdapter(private val mContext:Activity, private val mContent:List<Result>, private val mListener: ImageClickListener):RecyclerView.Adapter<BenefitViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BenefitViewHolder {
         val view = View.inflate(GankApplication.instance, R.layout.rv_benefit_item_view, null)
-        view.setOnClickListener {
-
-        }
         return BenefitViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        return mContent.results.size
+        return mContent.size
     }
 
     override fun onBindViewHolder(holder: BenefitViewHolder, position: Int) {
-        val model = mContent.results[position]
+        val model = mContent[position]
         Glide.with(mContext).load(model.url).into(holder.ivBenefit)
         holder.ivBenefit.setOnClickListener {
             mListener.imageOnClick(model.url)

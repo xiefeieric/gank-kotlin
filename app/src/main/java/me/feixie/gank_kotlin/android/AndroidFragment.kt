@@ -17,6 +17,7 @@ import me.feixie.gank_kotlin.api.ContentApiModel
 import timber.log.Timber
 import kotlinx.android.synthetic.main.fragment_android.view.*
 import me.feixie.gank_kotlin.CONTENT_TYPE
+import me.feixie.gank_kotlin.api.Result
 import me.feixie.gank_kotlin.common.ViewArticalActivity
 import me.feixie.gank_kotlin.util.EndlessRecyclerViewScrollListener
 
@@ -33,8 +34,10 @@ class AndroidFragment : Fragment() {
     }
 
     private lateinit var mViewModel: AndroidViewModel
-    private var mType:String?  = null
+    private var mType: String? = null
     private lateinit var mLayoutManager: LinearLayoutManager
+    private val mResults = mutableListOf<Result>()
+    private var mPage = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -51,24 +54,37 @@ class AndroidFragment : Fragment() {
     }
 
 
-
     private fun initView(view: View) {
         view.rvAndroidContent.hasFixedSize()
         mLayoutManager = LinearLayoutManager(activity)
         view.rvAndroidContent.layoutManager = mLayoutManager
-        val listener = object : EndlessRecyclerViewScrollListener(mLayoutManager){
+        val listener = object : EndlessRecyclerViewScrollListener(mLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                Timber.d("page: "+page)
+                Timber.d("page: " + page)
+                mPage += page
 
                 //TODO IMPLEMENT LOAD MORE FUNCTION
+                mViewModel.getLiveAndroidContent(mType!!, mPage).observe(this@AndroidFragment, Observer { content ->
+                    content?.let {
+
+                        content.results.forEach { result ->
+                            if (!mResults.map { it._id }.contains(result._id)) {
+                                mResults.add(result)
+                            }
+                        }
+                        mLayoutManager.scrollToPosition(20 * page - 15)
+                    }
+                })
             }
         }
         if (mType != null) {
-            mViewModel.getLiveAndroidContent(mType!!).observe(this, Observer { content ->
+            mViewModel.getLiveAndroidContent(mType!!, mPage).observe(this, Observer { content ->
                 content?.let {
+                    if (mResults.isEmpty()) {
+                        mResults += content.results
+                    }
                     view.pbContent.visibility = View.GONE
-                    view.rvAndroidContent?.adapter = AndroidAdapter(content, {result ->
-                        Timber.d(result.toString())
+                    view.rvAndroidContent.adapter = AndroidAdapter(mResults, { result ->
                         if (result.url.isNotEmpty()) {
                             ViewArticalActivity.startActivity(activity!!, result.url)
                         }

@@ -12,11 +12,14 @@ import android.util.LayoutDirection
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.fragment_android.view.*
 import kotlinx.android.synthetic.main.fragment_benefit.view.*
 import me.feixie.gank_kotlin.R
 import me.feixie.gank_kotlin.android.AndroidViewModel
 import me.feixie.gank_kotlin.api.ContentApiModel
+import me.feixie.gank_kotlin.api.Result
 import me.feixie.gank_kotlin.common.ViewArticalActivity
+import me.feixie.gank_kotlin.util.EndlessRecyclerViewScrollListener
 import timber.log.Timber
 
 
@@ -32,6 +35,7 @@ class BenefitFragment : Fragment(), ImageClickListener {
     }
 
     private lateinit var mViewModel: AndroidViewModel
+    private val mResults = mutableListOf<Result>()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -49,12 +53,42 @@ class BenefitFragment : Fragment(), ImageClickListener {
         mViewModel = ViewModelProviders.of(this).get(AndroidViewModel::class.java)
     }
 
+    private lateinit var mLayoutManager: StaggeredGridLayoutManager
+
+    private var mPage = 1
+
     private fun initView(view: View) {
         view.rvBenefit.setHasFixedSize(true)
-        view.rvBenefit.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        mViewModel.getLiveAndroidContent("福利").observe(this, Observer { content ->
+        mLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        view.rvBenefit.layoutManager = mLayoutManager
+
+        val listener = object : EndlessRecyclerViewScrollListener(mLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                Timber.d("page: " + page)
+                mPage += page
+
+                //TODO IMPLEMENT LOAD MORE FUNCTION
+//                mViewModel.getLiveAndroidContent("福利", mPage).observe(this@BenefitFragment, Observer { content ->
+//                    content?.let {
+//
+//                        content.results.forEach { result ->
+//                            if (!mResults.map { it._id }.contains(result._id)) {
+//                                mResults.add(result)
+//                            }
+//                        }
+////                        mLayoutManager.scrollToPosition(20 * page - 10)
+//                    }
+//                })
+            }
+        }
+
+        mViewModel.getLiveAndroidContent("福利", mPage).observe(this, Observer { content ->
             content?.let {
-                view.rvBenefit.adapter = BenefitRVAdapter(activity!!, content, this)
+                if (mResults.isEmpty()) {
+                    mResults += content.results
+                }
+                view.rvBenefit.adapter = BenefitRVAdapter(activity!!, mResults, this)
+                view.rvBenefit.addOnScrollListener(listener)
             }
         })
     }

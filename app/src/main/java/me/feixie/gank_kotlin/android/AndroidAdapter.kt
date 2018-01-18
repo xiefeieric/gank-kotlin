@@ -12,7 +12,7 @@ import me.feixie.gank_kotlin.api.Result
 /**
  * Created by fei on 11/01/2018.
  */
-class AndroidAdapter(private val content:ContentApiModel, val listener:(Result)->Unit): RecyclerView.Adapter<ItemViewHolder>() {
+class AndroidAdapter(private val content:List<Result>, val listener:(Result)->Unit): RecyclerView.Adapter<ItemViewHolder>() {
 
     //test
 
@@ -22,11 +22,11 @@ class AndroidAdapter(private val content:ContentApiModel, val listener:(Result)-
     }
 
     override fun getItemCount(): Int {
-        return content.results.size
+        return content.size
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        content.results[position].apply {
+        content[position].apply {
             holder.itemView.tvContentTitle.text = desc
             holder.itemView.tvContentTitle.setOnClickListener { listener(this) }
         }

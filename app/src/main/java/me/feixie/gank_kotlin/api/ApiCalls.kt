@@ -18,6 +18,6 @@ interface GankHistoryService {
 }
 
 interface GankAndroidService {
-    @GET("data/{type}/20/1")
-    fun getAndroidContent(@Path("type") type:String) : Observable<ContentApiModel>
+    @GET("data/{type}/20/{page}")
+    fun getAndroidContent(@Path("type") type:String, @Path("page") page:Int) : Observable<ContentApiModel>
 }

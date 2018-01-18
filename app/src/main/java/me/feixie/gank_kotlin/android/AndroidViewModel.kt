@@ -22,8 +22,8 @@ class AndroidViewModel:ViewModel() {
     private val mService = DaggerServiceComponent.builder().apiServiceModule(ApiServiceModule()).build().injectService()
     private val mLiveAndroidContent = MutableLiveData<ContentApiModel>()
 
-    fun getLiveAndroidContent(type:String): MutableLiveData<ContentApiModel> {
-        mService.getAndroidContent(type)
+    fun getLiveAndroidContent(type:String, page:Int): MutableLiveData<ContentApiModel> {
+        mService.getAndroidContent(type, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({androidContent ->
