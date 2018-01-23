@@ -9,11 +9,12 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.text.Layout
 import android.util.LayoutDirection
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import kotlinx.android.synthetic.main.fragment_android.view.*
 import kotlinx.android.synthetic.main.fragment_benefit.view.*
+import me.feixie.gank_kotlin.GankApplication
 import me.feixie.gank_kotlin.R
 import me.feixie.gank_kotlin.android.AndroidViewModel
 import me.feixie.gank_kotlin.api.ContentApiModel
@@ -42,11 +43,11 @@ class BenefitFragment : Fragment(), ImageClickListener {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_benefit, container, false)
+        setHasOptionsMenu(true)
         initData()
         initView(view)
         return view
     }
-
 
 
     private fun initData() {
@@ -58,27 +59,28 @@ class BenefitFragment : Fragment(), ImageClickListener {
     private var mPage = 1
 
     private fun initView(view: View) {
-        view.rvBenefit.setHasFixedSize(true)
         mLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         view.rvBenefit.layoutManager = mLayoutManager
 
         val listener = object : EndlessRecyclerViewScrollListener(mLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                Timber.d("page: " + page)
                 mPage += page
+                Timber.d("page: " + mPage)
 
-                //TODO IMPLEMENT LOAD MORE FUNCTION
-//                mViewModel.getLiveAndroidContent("福利", mPage).observe(this@BenefitFragment, Observer { content ->
-//                    content?.let {
-//
-//                        content.results.forEach { result ->
-//                            if (!mResults.map { it._id }.contains(result._id)) {
-//                                mResults.add(result)
-//                            }
-//                        }
-////                        mLayoutManager.scrollToPosition(20 * page - 10)
-//                    }
-//                })
+                mViewModel.getLiveAndroidContent("福利", mPage).observe(this@BenefitFragment, Observer { content ->
+                    content?.let {
+
+                        content.results.forEach { result ->
+                            if (!mResults.map { it._id }.contains(result._id)) {
+                                mResults.add(result)
+                            }
+                        }
+                        mLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                        view.rvBenefit.layoutManager = mLayoutManager
+                        view.rvBenefit.adapter = BenefitRVAdapter(this@BenefitFragment.activity!!, mResults, this@BenefitFragment)
+                        mLayoutManager.scrollToPosition((20 * page - 10) / 2)
+                    }
+                })
             }
         }
 
@@ -87,10 +89,21 @@ class BenefitFragment : Fragment(), ImageClickListener {
                 if (mResults.isEmpty()) {
                     mResults += content.results
                 }
-                view.rvBenefit.adapter = BenefitRVAdapter(activity!!, mResults, this)
+                if (mResults.isNotEmpty()) {
+                    view.pbBenefit.visibility = View.GONE
+                }
+                if (mPage == 1) {
+                    Timber.d("first load")
+                    view.rvBenefit.adapter = BenefitRVAdapter(activity!!, mResults, this)
+                }
                 view.rvBenefit.addOnScrollListener(listener)
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.findItem(R.id.action_search).isVisible = false
     }
 
     override fun imageOnClick(url: String) {

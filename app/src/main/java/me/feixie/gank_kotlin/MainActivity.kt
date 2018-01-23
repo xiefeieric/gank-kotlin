@@ -18,12 +18,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     companion object {
         val TODAY_FRAGMENT = "today_fragment"
         val ANDROID_FRAGMENT = "android_fragment"
-        val IOS_FRAGMENT = "ios_fragment"
-        val FRONTEND_FRAGMENT = "front_end_fragment"
         val BENEFIT_FRAGMENT = "benefit_fragment"
-        val VIDEOS_FRAGMENT = "videos_fragment"
         val ABOUT_FRAGMENT = "about_fragment"
-        val FEEDBACK_FRAGMENT = "feedback_fragment"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +37,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+        nav_view.setCheckedItem(R.id.nav_today)
 
         mTodayFragment = if (supportFragmentManager.findFragmentByTag(TODAY_FRAGMENT) == null) {
             TodayFragment()

@@ -54,6 +54,8 @@ class ViewArticalActivity : AppCompatActivity() {
         mvContent.settings.pluginState = WebSettings.PluginState.ON
         mvContent.settings.allowFileAccess = true
         mvContent.settings.setSupportZoom(true)
+        mvContent.settings.builtInZoomControls = true
+        mvContent.settings.supportZoom()
         mvContent.settings.cacheMode = WebSettings.LOAD_NO_CACHE
         mvContent.settings.domStorageEnabled = true
         mvContent.setLayerType(View.LAYER_TYPE_HARDWARE, null)
